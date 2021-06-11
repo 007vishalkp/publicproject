@@ -16,7 +16,7 @@ public class SearchEnginePage {
     private WebElement searchBar;
     @FindBy(xpath = "//a//*[text()=\"https://www.cardekho.com\"] | //a//*[text()=\"https://www.carwale.com\"]")
     private List<WebElement> listOfResults;
-    @FindBy(xpath = "//h1")
+    @FindBy(xpath = "//h1/parent::div")
     private WebElement searchHeading;
 
     private WebDriver driver = DriverManager.getDriver();
@@ -68,17 +68,21 @@ public class SearchEnginePage {
     }
 
     /**
-     * This method will check for the heading, if it has the searched text
+     * This method will check for the heading, if it has the searched text and the searched result is more than 0
+     *
      * @param searchText
      * @return true if the links have the searched text.
      */
     private boolean verifyHeading(String searchText) {
         String expectedText = null;
+        int numberOfResults = 0;
         searchText = searchText.toLowerCase();
         wait.until(ExpectedConditions.visibilityOf(searchHeading));
         expectedText = searchHeading.getText().toLowerCase();
 
-        return expectedText.contains(searchText);
+        numberOfResults = Integer.parseInt(expectedText.replaceAll("[^0-9]", ""));
+
+        return expectedText.contains(searchText) && numberOfResults > 0;
     }
 
 }
