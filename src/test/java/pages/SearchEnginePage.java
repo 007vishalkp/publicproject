@@ -80,6 +80,7 @@ public class SearchEnginePage {
         wait.until(ExpectedConditions.visibilityOf(searchHeading));
         expectedText = searchHeading.getText().toLowerCase();
 
+
         numberOfResults = Integer.parseInt(expectedText.replaceAll("[^0-9]", ""));
 
         return expectedText.contains(searchText) && numberOfResults > 0;
